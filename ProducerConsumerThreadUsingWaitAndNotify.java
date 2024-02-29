@@ -4,6 +4,47 @@ import java.util.LinkedList;
 
 public class ProducerConsumerThreadUsingWaitAndNotify {
 
+    public static void main(String[] args) throws InterruptedException {
+
+        final ProducerConsumer producerConsumerObject = new ProducerConsumer();
+
+        Thread threadObject1 = new Thread(new Runnable(){
+
+            @Override
+            public void run() {
+                try{
+                    producerConsumerObject.produce();
+                } catch (InterruptedException exception){
+                    exception.printStackTrace();
+                }
+
+            }
+            
+        });
+
+        Thread threadObject2 = new Thread(new Runnable(){
+
+            @Override
+            public void run() {
+                try{
+                    producerConsumerObject.consume();
+                } catch(InterruptedException exception){
+                    exception.printStackTrace();
+                }
+            }
+
+        });
+
+        threadObject1.start();
+        threadObject2.start();
+
+        threadObject1.join();
+
+        threadObject2.join();
+
+
+    }
+
 
     public static class ProducerConsumer {
 
